@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  
+    <title>Git Events Poller</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Git Events</a>
+    </nav>
+
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md">
+          <button type="button" class="btn btn-primary">
+            Cycles <span id="cycles" class="badge badge-light">0</span>
+          </button>
+          <button type="button" class="btn btn-primary">
+            Buffer size <span id="size" class="badge badge-light">0</span>
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md">
+          <div id="type" style="width: 600px; height: 500px;"></div>
+        </div>
+        <div class="col-md">
+          <div id="language" style="width: 600px; height: 500px;"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md">
+          <div id="calendar" style="width: 1000px; height: 350px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="poller.js"></script>
+    <script src="ops.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+      google.charts.load('current', {'packages':['corechart', 'table', 'calendar']});
+
+      let ct = document.getElementById('cycles');
+      let sz = document.getElementById('size');
+      window.addEventListener('DOMContentLoaded', (event) => {
+        Poller();
+      })
+      
+      window.addEventListener("refresh", function(e) { 
+        console.dir(e)
+        ct.innerHTML = e.detail.count;
+        sz.innerHTML = e.detail.size;
+        
+        drawChart(e.detail.data, "Type");
+        drawChart(e.detail.data, "Language");
+        drawTable(e.detail.data, "calendar");
+      });
+
+    </script>
+  </body>
+</html>
