@@ -32,12 +32,13 @@ const Poller = (data, int, tag, rem, cyc) => {
           }
       })
       .then(itemArr => {
-        return itemArr.map(item => { 
-          console.log(item.created_at)       
+        return itemArr.map(item => {      
           return {
             id: item.id,
             type: item.type,
-            created: item.created_at? item.created_at: null, 
+            created: item.payload? item.payload.pull_request? item.payload.pull_request.head?item.payload.pull_request.head
+            ? item.payload.pull_request.head.repo? item.payload.pull_request.head.repo.created_at
+            : null : null : null : null : null,
             comment: item.payload? item.payload.comments? item.payload.comments : null : null,
             language: item.payload? item.payload.pull_request? item.payload.pull_request.head? item.payload.pull_request.head.repo
             ? item.payload.pull_request.head.repo.language? item.payload.pull_request.head.repo.language

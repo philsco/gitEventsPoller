@@ -38,9 +38,8 @@ const drawChart = (data, target) => {
       let dates = new Map();
       let source = [];
       data.forEach(item => {
-          console.log(item.created)
             if (item.created) {
-                if(dates.has(item.crated)) {
+                if(dates.has(item.created)) {
                     dates.set(item.created, dates.get(item.created) + 1);
                 } else {
                     dates.set(item.created, 1);
